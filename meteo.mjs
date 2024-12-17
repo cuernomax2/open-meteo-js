@@ -31,7 +31,7 @@ const codigosTiempo = { //diccionario hecho con chatgpt para asociar un valor le
   99: "Tormenta con granizo fuerte"
 };
 
-async function obtenInformacionMeteo(latitud, longitud) { //función que recoge los datos de open-meteo, los convierte en JSON y los retorna
+export async function obtenInformacionMeteo(latitud, longitud) { //función que recoge los datos de open-meteo, los convierte en JSON y los retorna
   const apiURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitud}&longitude=${longitud}&current_weather=true`;
   try {
     const respuestaAPI = await fetch(apiURL);
@@ -43,7 +43,7 @@ async function obtenInformacionMeteo(latitud, longitud) { //función que recoge 
   }
 }
 
-function procesaCodigoTiempo(JSON){ //utiliza el json retornado de obtenerInformacionMeteo y, usando el código numérico weathercode lo contrasta con el diccionario definido al principio del programa. Retorna un string
+export function procesaCodigoTiempo(JSON){ //utiliza el json retornado de obtenerInformacionMeteo y, usando el código numérico weathercode lo contrasta con el diccionario definido al principio del programa. Retorna un string
   if (JSON != false){
     const codigoTiempo = JSON.current_weather.weathercode;
     const tiempoDescripcion = codigosTiempo[codigoTiempo] || "Código meteorológico no registrado";
@@ -54,13 +54,13 @@ function procesaCodigoTiempo(JSON){ //utiliza el json retornado de obtenerInform
   }
 }
 
-function procesaViento(JSON){ //utiliza el json retornado de obtenerInformacionMeteo y retorna una matriz (velocidad posición 0, dirección posición 1)
+export function procesaViento(JSON){ //utiliza el json retornado de obtenerInformacionMeteo y retorna una matriz (velocidad posición 0, dirección posición 1)
   const vientoVelocidad = JSON.current_weather.winddirection;
   const vientoDireccion = JSON.current_weather.windspeed;
   return [vientoVelocidad, vientoDireccion];
 }
 
-function direccionViento(viento) { //función creada con chatgpt para definir la dirección del viento según el valor introducido (de 0 a 360)
+export function direccionViento(viento) { //función creada con chatgpt para definir la dirección del viento según el valor introducido (de 0 a 360)
   const grados = viento;
   let direccion = "";
 
@@ -86,11 +86,11 @@ function direccionViento(viento) { //función creada con chatgpt para definir la
   return direccion;
 }
 
-function procesaTemperatura(JSON){ //función que únicamente retorna la temperatura recibida del JSON
+export function procesaTemperatura(JSON){ //función que únicamente retorna la temperatura recibida del JSON
   return JSON.current_weather.temperature;
 }
 
-function muestraInformacionMeteo(tiempo, viento, temperatura){ //función que muestra por pantalla todos los valores relevantes, teniendo como entrada variables cuyos datos fueron retornos de las funciones anteriores
+export function muestraInformacionMeteo(tiempo, viento, temperatura){ //función que muestra por pantalla todos los valores relevantes, teniendo como entrada variables cuyos datos fueron retornos de las funciones anteriores
   console.log(`Descripción del tiempo: ${tiempo}`);
   console.log(`Temperatura actual: ${temperatura}ºC`);
   console.log(`Velocidad del viento: ${viento[0]}Km/h`);
@@ -98,11 +98,15 @@ function muestraInformacionMeteo(tiempo, viento, temperatura){ //función que mu
 }
 
 
-const teisLatitud = 42.2576;
-const teisLongitud = -8.683;
+export async function main() {
+  const teisLatitud = 42.2576;
+  const teisLongitud = -8.683;
 
-const JSON = await obtenInformacionMeteo(teisLatitud, teisLongitud);
-const tiempo = procesaCodigoTiempo(JSON);
-const viento = procesaViento(JSON);
-const temperatura = procesaTemperatura(JSON);
-muestraInformacionMeteo(tiempo, viento, temperatura);
+  const JSON = await obtenInformacionMeteo(teisLatitud, teisLongitud);
+  const tiempo = procesaCodigoTiempo(JSON);
+  const viento = procesaViento(JSON);
+  const temperatura = procesaTemperatura(JSON);
+  muestraInformacionMeteo(tiempo, viento, temperatura);
+}
+
+main();
