@@ -94,11 +94,11 @@ export function muestraInformacionMeteo(tiempo, viento, temperatura){ //función
   console.log(`Descripción del tiempo: ${tiempo}`);
   console.log(`Temperatura actual: ${temperatura}ºC`);
   console.log(`Velocidad del viento: ${viento[0]}Km/h`);
-  console.log(`Dirección del viento: ${viento[1]} (${direccionViento(viento[1])})`);
+  console.log(`Dirección del viento: ${viento[1]}º (${direccionViento(viento[1])})`);
 }
 
 
-export async function main() {
+async function main() {
   const teisLatitud = 42.2576;
   const teisLongitud = -8.683;
 
