@@ -86,8 +86,12 @@ export function direccionViento(viento) { //función creada con chatgpt para def
   return direccion;
 }
 
-export function procesaTemperatura(JSON){ //función que únicamente retorna la temperatura recibida del JSON
-  return JSON.current_weather.temperature;
+export function procesaTemperatura(JSON) { //función que comprueba que la temperatura no esté por debajo del 0 kelvin y retorna la temperatura actual
+  const temperatura = JSON.current_weather.temperature;
+  if (temperatura < -273.15) {
+    throw new Error('Temperatura inválida');
+  }
+  return temperatura;
 }
 
 export function muestraInformacionMeteo(tiempo, viento, temperatura){ //función que muestra por pantalla todos los valores relevantes, teniendo como entrada variables cuyos datos fueron retornos de las funciones anteriores

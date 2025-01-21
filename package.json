@@ -2,7 +2,7 @@
   "name": "meteo",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

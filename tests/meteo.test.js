@@ -28,7 +28,7 @@ describe('Pruebas para el programa meteorológico', () => {
     );
 
     const datosMeteo = await obtenInformacionMeteo(42.2576, -8.683);
-    expect(datosMeteo.current_weather.temperature).toBeGreaterThanOrEqual(-50);
+    expect(datosMeteo.current_weather.temperature).toBeGreaterThanOrEqual(-50); //No sé por qué, pero no me deja testear esta parte con toBe
     expect(datosMeteo.current_weather.temperature).toBeLessThanOrEqual(50);
   
     expect(datosMeteo.current_weather.windspeed).toBeGreaterThanOrEqual(0);
@@ -39,6 +39,19 @@ describe('Pruebas para el programa meteorológico', () => {
   
     expect(datosMeteo.current_weather.weathercode).toBeGreaterThanOrEqual(0);
     expect(datosMeteo.current_weather.weathercode).toBeLessThanOrEqual(99);
+  });
+  
+  test('procesaCodigoTiempo retorna error y llama a process.exit(1) si el JSON es false', () => {
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const processExitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
+  
+    procesaCodigoTiempo(false);
+  
+    expect(consoleLogSpy).toHaveBeenCalledWith('Error fetcheando la información meteorológica');
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+  
+    consoleLogSpy.mockRestore();
+    processExitSpy.mockRestore();
   });
 
   test('procesaCodigoTiempo convierte correctamente el código del tiempo', () => {
@@ -68,12 +81,15 @@ describe('Pruebas para el programa meteorológico', () => {
     expect(direccionViento(0)).toBe('N'); 
     expect(direccionViento(45)).toBe('NE');
     expect(direccionViento(90)).toBe('E');
+    expect(direccionViento(135)).toBe('SE');
     expect(direccionViento(180)).toBe('S');
+    expect(direccionViento(225)).toBe('SW'); 
     expect(direccionViento(270)).toBe('W'); 
     expect(direccionViento(315)).toBe('NW');
+    expect(direccionViento(350)).toBe('N');
   });
 
-  test('procesaTemperatura retorna la temperatura correctamente', () => {
+  test('procesaTemperatura comprueba que la temperatura es correcta', () => {
     const mockJSON = {
       current_weather: {
         temperature: 20
@@ -81,7 +97,18 @@ describe('Pruebas para el programa meteorológico', () => {
     };
 
     const temperatura = procesaTemperatura(mockJSON);
+    expect(temperatura).not.toBe(584935);
     expect(temperatura).toBe(20);
+  });
+
+  test('procesaTemperatura lanza un error con temperatura imposible', () => {
+    const mockJSON = { 
+      current_weather: { 
+        temperature: -1000 
+      } 
+    };
+
+    expect(() => procesaTemperatura(mockJSON)).toThrow('Temperatura inválida');
   });
 
   test('muestraInformacionMeteo muestra la información correctamente en consola', () => {
