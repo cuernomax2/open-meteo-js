@@ -1,6 +1,7 @@
-Logs de tests: logs de dos runs del comando ``ǹpm test```
+Logs de tests: logs de dos runs del comando npm test
 
-La primera run muestra que sólo hay dos líneas sin cubrir por jest (41-42), mientras que, en el segundo test (y sin modificar el código), dichas líneas aparecen sin cubrir. No tengo ni idea de qué pasa😍👍
+La primera run muestra que sólo hay dos líneas sin cubrir por jest (41-42), mientras que, en el segundo test (y sin modificar el código), dichas líneas aparecen sin cubrir. 
+No tengo ni idea de qué pasa😍👍
 
 a23mateomgu@lnxn-i7e14:~/Escritorio/open-meteo$ npm test
 
