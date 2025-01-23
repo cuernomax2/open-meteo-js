@@ -1,0 +1,78 @@
+Logs de tests: logs de dos runs del comando ``ǹpm test```
+
+La primera run muestra que sólo hay dos líneas sin cubrir por jest (41-42), mientras que, en el segundo test (y sin modificar el código), dichas líneas aparecen sin cubrir. No tengo ni idea de qué pasa😍👍
+
+a23mateomgu@lnxn-i7e14:~/Escritorio/open-meteo$ npm test
+
+> meteo@1.0.0 test
+> jest --coverage
+
+  console.log
+    Descripción del tiempo: Nublado
+
+      at log (meteo.mjs:98:11)
+
+  console.log
+    Temperatura actual: 10.5ºC
+
+      at log (meteo.mjs:99:11)
+
+  console.log
+    Velocidad del viento: 219Km/h
+
+      at log (meteo.mjs:100:11)
+
+  console.log
+    Dirección del viento: 2.3º (N)
+
+      at log (meteo.mjs:101:11)
+
+ PASS  tests/meteo.test.js
+  Pruebas para el programa meteorológico
+    ✓ obtenInformacionMeteo devuelve datos correctos (256 ms)
+    ✓ procesaCodigoTiempo convierte correctamente el código del tiempo
+    ✓ procesaViento extrae correctamente la velocidad y dirección del viento (1 ms)
+    ✓ direccionViento devuelve la dirección correcta basada en el ángulo (1 ms)
+    ✓ procesaTemperatura comprueba que la temperatura es correcta
+    ✓ procesaTemperatura lanza un error con temperatura imposible (42 ms)
+    ✓ muestraInformacionMeteo muestra la información correctamente en consola
+    ✓ procesaCodigoTiempo retorna error y llama a process.exit(1) si el JSON es false
+
+-----------|---------|----------|---------|---------|-------------------
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------|---------|----------|---------|---------|-------------------
+All files  |   96.29 |    95.23 |     100 |   96.29 |                   
+ meteo.mjs |   96.29 |    95.23 |     100 |   96.29 | 41-42             
+-----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.679 s, estimated 1 s
+Ran all test suites.
+a23mateomgu@lnxn-i7e14:~/Escritorio/open-meteo$ npm test
+
+> meteo@1.0.0 test
+> jest --coverage
+
+ PASS  tests/meteo.test.js
+  Pruebas para el programa meteorológico
+    ✓ obtenInformacionMeteo devuelve datos correctos (251 ms)
+    ✓ procesaCodigoTiempo convierte correctamente el código del tiempo (1 ms)
+    ✓ procesaViento extrae correctamente la velocidad y dirección del viento (1 ms)
+    ✓ direccionViento devuelve la dirección correcta basada en el ángulo (1 ms)
+    ✓ procesaTemperatura comprueba que la temperatura es correcta
+    ✓ procesaTemperatura lanza un error con temperatura imposible (39 ms)
+    ✓ muestraInformacionMeteo muestra la información correctamente en consola
+    ✓ procesaCodigoTiempo retorna error y llama a process.exit(1) si el JSON es false
+
+-----------|---------|----------|---------|---------|-------------------
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------|---------|----------|---------|---------|-------------------
+All files  |   88.88 |    95.23 |     100 |   88.88 |                   
+ meteo.mjs |   88.88 |    95.23 |     100 |   88.88 | 41-42,110-113     
+-----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.662 s, estimated 1 s
+Ran all test suites.
