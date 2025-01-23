@@ -40,19 +40,6 @@ describe('Pruebas para el programa meteorológico', () => {
     expect(datosMeteo.current_weather.weathercode).toBeGreaterThanOrEqual(0);
     expect(datosMeteo.current_weather.weathercode).toBeLessThanOrEqual(99);
   });
-  
-  test('procesaCodigoTiempo retorna error y llama a process.exit(1) si el JSON es false', () => {
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    const processExitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
-  
-    procesaCodigoTiempo(false);
-  
-    expect(consoleLogSpy).toHaveBeenCalledWith('Error fetcheando la información meteorológica');
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-  
-    consoleLogSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
 
   test('procesaCodigoTiempo convierte correctamente el código del tiempo', () => {
     const mockJSON = {
@@ -130,5 +117,18 @@ describe('Pruebas para el programa meteorológico', () => {
     muestraInformacionMeteo(tiempo, viento, temperatura);
 
     expect(console.log).toHaveBeenCalledTimes(4);
+  });
+
+  test('procesaCodigoTiempo retorna error y llama a process.exit(1) si el JSON es false', () => {
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const processExitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
+  
+    procesaCodigoTiempo(false);
+  
+    expect(consoleLogSpy).toHaveBeenCalledWith('Error fetcheando la información meteorológica');
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+  
+    consoleLogSpy.mockRestore();
+    processExitSpy.mockRestore();
   });
 });

@@ -80,7 +80,7 @@ export function direccionViento(viento) { //función creada con chatgpt para def
     direccion = "W";
   } else if (grados >= 292.5 && grados < 337.5) {
     direccion = "NW";
-  } else if (grados >= 337.5 && grados < 360) {
+  } else if (grados >= 337.5 && grados <= 360) {
     direccion = "N";
   }
   return direccion;
@@ -107,9 +107,9 @@ async function main() {
   const teisLongitud = -8.683;
 
   const JSON = await obtenInformacionMeteo(teisLatitud, teisLongitud);
-  const tiempo = procesaCodigoTiempo(JSON);
+  const tiempo = await procesaCodigoTiempo(JSON);
   const viento = procesaViento(JSON);
-  const temperatura = procesaTemperatura(JSON);
+  const temperatura = await procesaTemperatura(JSON);
   muestraInformacionMeteo(tiempo, viento, temperatura);
 }
 
