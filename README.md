@@ -1,3 +1,5 @@
+This is a simple JS program that allows you to check the weather based on the input coordinates.  
+
 test program: ```js meteo.mjs```
 
 test tests: ```npm test```
